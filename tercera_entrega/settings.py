@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ecommerce',
 ]
 
 MIDDLEWARE = [
@@ -116,7 +117,33 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# Directorios donde Django buscará archivos estáticos
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
+# Directorio donde se recopilarán todos los archivos estáticos para producción
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Configuración de login/logout
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+# Configuración de sesiones
+# Duración de la sesión en segundos (30 minutos para desarrollo)
+SESSION_COOKIE_AGE = 1800  # 30 minutos
+
+# Cerrar sesión cuando se cierra el navegador
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Regenerar session key en cada login (mayor seguridad)
+SESSION_REGENERATE_WHEN_LOGIN = True
+
+# Para desarrollo: sesiones en caché en lugar de base de datos (opcional)
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cache'

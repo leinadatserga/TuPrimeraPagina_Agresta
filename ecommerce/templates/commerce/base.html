@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gestor de e-commerce{% endblock %}</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Estilos base del sistema -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <h1>Gestor de e-commerce</h1>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}" {% block nav_home %}{% endblock %}>Home</a></li>
+            {% if request.session.username %}
+                <li><a href="{% url 'crear_cliente' %}" {% block nav_crear_cliente %}{% endblock %}>Crear Cliente</a></li>
+                <li><a href="{% url 'crear_producto' %}" {% block nav_crear_producto %}{% endblock %}>Crear Producto</a></li>
+                <li><a href="{% url 'busqueda' %}" {% block nav_buscar %}{% endblock %}>Buscar</a></li>
+                <li><a href="{% url 'logout' %}">Cerrar Sesión ({{ request.session.username }})</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
+                <li><a href="{% url 'registro' %}">Registrarse</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    
+    <main>
+        {% if messages %}
+            <div style="margin-bottom: 2rem;">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2024 Sistema de Gestión E-commerce</p>
+                <p>Desarrollado con Django y mucho ❤️</p>
+            </div>
+            <div class="social-icons">
+                <a href="https://linkedin.com/in/agresta" target="_blank" class="linkedin" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://github.com/agresta" target="_blank" class="github" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://twitter.com/agresta" target="_blank" class="twitter" title="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://instagram.com/agresta" target="_blank" class="instagram" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,72 @@
+{% extends 'commerce/base.html' %}
+
+{% block nav_home %}class="active"{% endblock %}
+
+{% block content %}
+<div class="welcome-section">
+    {% if request.session.username %}
+        <h2>¡Bienvenido {{ request.session.username }}!</h2>
+        <p>Sistema integral para la gestión de clientes y productos desarrollado con Django.</p>
+        <p><strong>Estado:</strong> <span style="color: #27ae60;">✅ Sesión activa</span></p>
+    {% else %}
+        <h2>Bienvenido al Sistema de Gestión E-commerce</h2>
+        <p>Sistema integral para la gestión de clientes y productos desarrollado con Django.</p>
+        <p><strong>Estado:</strong> <span style="color: #e74c3c;">❌ Sesión no iniciada</span></p>
+        <div style="background: #fff3cd; padding: 1rem; border-radius: 8px; margin-top: 1rem; border-left: 4px solid #ffc107;">
+            <p><strong>⚠️ Aviso:</strong> Debes <a href="{% url 'login' %}" style="color: #856404; font-weight: bold;">iniciar sesión</a> o <a href="{% url 'registro' %}" style="color: #856404; font-weight: bold;">registrarte</a> para acceder a las funcionalidades del sistema.</p>
+        </div>
+    {% endif %}
+</div>
+
+<div class="instructions">
+    <h3>📋 Instrucciones de Uso</h3>
+    {% if request.session.username %}
+        <p><strong>Para comenzar a usar el sistema:</strong></p>
+        <ul>
+            <li><strong>Cargar datos de prueba:</strong> Ejecuta <code>python manage.py loaddata products</code> para cargar productos de ejemplo</li>
+            <li><strong>Crear clientes:</strong> Utiliza la sección <a href="{% url 'crear_cliente' %}" style="color: #3498db; font-weight: bold;">"Crear Cliente"</a> para registrar nuevos usuarios</li>
+            <li><strong>Gestionar productos:</strong> Agrega, edita o elimina productos desde <a href="{% url 'crear_producto' %}" style="color: #3498db; font-weight: bold;">"Crear Producto"</a></li>
+            <li><strong>Buscar:</strong> Encuentra rápidamente clientes y productos usando la función de búsqueda</li>
+        </ul>
+    {% else %}
+        <p><strong>Acceso requerido:</strong></p>
+        <ul>
+            <li><strong>Registrarse:</strong> <a href="{% url 'registro' %}" style="color: #27ae60; font-weight: bold;">Crear una cuenta nueva</a> para acceder al sistema</li>
+            <li><strong>Iniciar sesión:</strong> <a href="{% url 'login' %}" style="color: #3498db; font-weight: bold;">Entrar con una cuenta existente</a></li>
+            <li><strong>Gestión completa:</strong> Una vez logueado, tendrás acceso a todas las funcionalidades</li>
+        </ul>
+    {% endif %}
+    
+    <h3>🔧 Funcionalidades del Sistema</h3>
+    <div class="features">
+        <div class="feature-card">
+            <h4>👥 Gestión de Clientes</h4>
+            <p>Registro completo de clientes con validación de email único, sistema VIP para mayores de 40 años y gestión de datos personales.</p>
+            {% if not request.session.username %}
+                <p style="color: #e74c3c; font-size: 0.9rem; font-style: italic;">🔒 Requiere login</p>
+            {% endif %}
+        </div>
+        <div class="feature-card">
+            <h4>📦 Catálogo de Productos</h4>
+            <p>Gestión completa de productos con precios, stock, descripciones y estado activo/inactivo.</p>
+            {% if not request.session.username %}
+                <p style="color: #e74c3c; font-size: 0.9rem; font-style: italic;">🔒 Requiere login</p>
+            {% endif %}
+        </div>
+        <div class="feature-card">
+            <h4>💰 Sistema VIP</h4>
+            <p>Beneficios especiales para clientes VIP (mayores de 40 años) con funcionalidades exclusivas.</p>
+            {% if not request.session.username %}
+                <p style="color: #e74c3c; font-size: 0.9rem; font-style: italic;">🔒 Requiere login</p>
+            {% endif %}
+        </div>
+        <div class="feature-card">
+            <h4>🔍 Búsqueda Avanzada</h4>
+            <p>Sistema de búsqueda rápida para encontrar clientes y productos de manera eficiente.</p>
+            {% if not request.session.username %}
+                <p style="color: #e74c3c; font-size: 0.9rem; font-style: italic;">🔒 Requiere login</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
