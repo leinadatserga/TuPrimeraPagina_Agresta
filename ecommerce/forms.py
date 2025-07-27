@@ -5,6 +5,14 @@ from .models import UsuarioSistema
 
 
 class formularioCliente(forms.Form):
+    """
+    Formulario para la creación de nuevos clientes en el sistema.
+    Incluye validación de campos obligatorios y formateo de entrada.
+    Features:
+        - Validación automática de formato de email.
+        - Límites de edad realistas.
+        - Placeholders informativos para UX.
+    """
     name = forms.CharField(
         max_length=100,
         label='Nombre completo',
@@ -31,6 +39,17 @@ class formularioCliente(forms.Form):
 
 
 class formularioProductos(forms.Form):
+    """
+    Formulario para la creación y edición de productos en el catálogo.
+    Permite definir todos los aspectos de un producto incluyendo precio,
+    stock y estado de visibilidad. Incluye validaciones para datos críticos
+    como precios negativos y límites de stock.
+    Features:
+        - Validación de precios no negativos.
+        - Campo de descripción opcional con textarea.
+        - Control de stock con validación mínima.
+        - Estado activo por defecto para nuevos productos.
+    """
     nombre = forms.CharField(
         max_length=200,
         label='Nombre del producto',
@@ -77,7 +96,18 @@ class formularioProductos(forms.Form):
 
 
 class formularioRegistro(forms.Form):
-    """Formulario simple para registrar nuevos usuarios"""
+    """
+    Formulario para el registro de nuevos usuarios en el sistema.
+    Incluye validación completa de unicidad para email y usuario,
+    verificación de contraseñas coincidentes y requisitos mínimos
+    de seguridad para contraseñas.
+    Features:
+        - Contraseñas coincidentes.
+        - Longitud mínima de contraseña (6 caracteres).
+        - Campos de contraseña con widget PasswordInput.
+        - Validación de unicidad antes del guardado.
+        - Mensajes de error específicos para cada validación.
+    """
     usuario = forms.CharField(
         max_length=150,
         label='Nombre de usuario',
@@ -108,18 +138,35 @@ class formularioRegistro(forms.Form):
     )
 
     def clean_email(self):
+        """
+        Valida que el email no esté ya registrado en el sistema.
+        Features:
+            - Verificación de unicidad en la base de datos.
+        """
         email = self.cleaned_data['email']
         if UsuarioSistema.objects.filter(email=email).exists():
             raise forms.ValidationError('Este email ya está registrado.')
         return email
 
     def clean_usuario(self):
+        """
+        Valida que el nombre de usuario no esté ya en la base de datos.
+        Features:
+            - Verificación de unicidad en la base de datos.
+        """
         usuario = self.cleaned_data['usuario']
         if UsuarioSistema.objects.filter(usuario=usuario).exists():
             raise forms.ValidationError('Este nombre de usuario ya está en uso.')
         return usuario
 
     def clean(self):
+        """
+        Validación global del formulario de registro.
+        Verifica que las contraseñas coincidan y cumplan con los
+        requisitos mínimos de seguridad.
+        Features:
+            - Contraseñas coincidentes.
+        """
         cleaned_data = super().clean()
         password1 = cleaned_data.get('password1')
         password2 = cleaned_data.get('password2')
@@ -134,7 +181,17 @@ class formularioRegistro(forms.Form):
 
 
 class formularioLogin(forms.Form):
-    """Formulario simple para login"""
+    """
+    Formulario para autenticación de usuarios existentes.
+    Proporciona una interfaz simple y segura para el inicio de sesión
+    utilizando email y contraseña. Compatible con el sistema de
+    autenticación personalizado del proyecto.
+    Features:
+        - Campo del email con validación automática de formato.
+        - Placeholders informativos para mejorar UX.
+        - No almacena ni muestra contraseñas en texto plano.
+        - Validación del formato del email antes del envío.
+    """
     email = forms.EmailField(
         label='Correo electrónico',
         widget=forms.EmailInput(attrs={
