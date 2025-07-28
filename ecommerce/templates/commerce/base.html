@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Gestor de e-commerce{% endblock %}</title>
-    <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Estilos base del sistema -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
@@ -50,7 +51,7 @@
         <div class="footer-content">
             <div class="footer-info">
                 <h4><strong>&copy; 2025 Daniel Agresta</strong> (todos los derechos reservados)</h4>
-                <p>Desarrollado con Django para la tercera entrega del curso de Python de Coderhouse, con mucho empeño y mucho ❤️</p>
+                <p>Desarrollado con Django para la tercera entrega del curso de Python de Coderhouse, con mucho empeño y mucho <i class="fas fa-heart" style="color: #e74c3c;"></i></p>
             </div>
             <div class="social-icons">
                 <a href="https://linkedin.com/in/agresta" target="_blank" class="linkedin" title="LinkedIn">
