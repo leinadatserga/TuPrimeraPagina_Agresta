@@ -205,3 +205,10 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Archivos temporales de templates (evitar _clean, _backup, etc.)
+*_clean.html
+*_backup.html
+*_temp.html
+*_copy.html
+

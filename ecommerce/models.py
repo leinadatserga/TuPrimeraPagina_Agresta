@@ -1,7 +1,5 @@
 from django.db import models
 from django.core.validators import MinValueValidator
-from django.contrib.auth.models import User as DjangoUser
-import json
 
 
 class UsuarioSistema(models.Model):

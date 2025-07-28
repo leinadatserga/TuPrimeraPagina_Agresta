@@ -1,6 +1,4 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate
 from .models import UsuarioSistema
 
 
@@ -64,7 +62,7 @@ class formularioProductos(forms.Form):
         min_value=0,
         label='Precio',
         widget=forms.NumberInput(attrs={
-            'placeholder': 'Ingrese el precio',
+            'placeholder': 'Ingrese el precio (en USD)',
             'step': '0.01'
         })
     )
@@ -73,7 +71,7 @@ class formularioProductos(forms.Form):
         required=False,
         label='Descripción',
         widget=forms.Textarea(attrs={
-            'placeholder': 'Descripción del producto (opcional)',
+            'placeholder': 'Descripción del producto',
             'rows': 4
         })
     )
@@ -156,7 +154,7 @@ class formularioRegistro(forms.Form):
         """
         usuario = self.cleaned_data['usuario']
         if UsuarioSistema.objects.filter(usuario=usuario).exists():
-            raise forms.ValidationError('Este nombre de usuario ya está en uso.')
+            raise forms.ValidationError('Este nombre de usuario ya existe.')
         return usuario
 
     def clean(self):

@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import login, logout
 from django.contrib.sessions.models import Session
 from django.db.models import Q
 from django.utils import timezone
@@ -49,9 +48,6 @@ def home(request):
     Renderiza la página de inicio con información general del sistema.
     No requiere autenticación.
     """
-    # Solo para depuración en desarrollo
-    # debug_session_info(request)
-    
     return render(request, 'commerce/home.html')
 
 @login_required_custom
@@ -69,35 +65,34 @@ def crear_cliente(request):
     if request.method == 'POST':
         form = formularioCliente(request.POST)
         if form.is_valid():
-            # Extraer datos limpios del formulario
+            # Extraer datos del formulario.
             name = form.cleaned_data['name']
             age = form.cleaned_data['age']
             email = form.cleaned_data['email']
             
             try:
-                # Crear el cliente en la base de datos
+                # Crear el cliente en la base de datos.
                 cliente = Cliente.objects.create(
                     name=name,
                     age=age,
                     email=email
                 )
                 
-                # Mensaje de éxito
                 messages.success(request, f'Cliente "{name}" creado exitosamente!')
                 
-                # Información adicional sobre quién lo creó
+                # Información sobre quién lo creó.
                 username = request.session.get('username', 'Usuario')
                 messages.info(request, f'Cliente registrado por: {username}')
                 
-                # Verificar si es VIP y mostrar mensaje adicional
+                # Verificar si es VIP y mostrar mensaje adicional.
                 if age > 40:
                     messages.info(request, f'¡{name} es un cliente VIP por ser mayor de 40 años!')
                 
-                # Redirigir para limpiar el formulario
+                # Redirigir para limpiar el formulario.
                 return redirect('crear_cliente')
                 
             except Exception as e:
-                # Manejar errores (ej: email duplicado)
+                # Manejar errores.
                 messages.error(request, 'Error al crear el cliente. Verifique que el email no esté duplicado.')
     else:
         form = formularioCliente()
@@ -119,7 +114,7 @@ def crear_producto(request):
     if request.method == 'POST':
         form = formularioProductos(request.POST)
         if form.is_valid():
-            # Extraer los datos limpios del formulario.
+            # Extraer los datos del formulario.
             nombre = form.cleaned_data['nombre']
             precio = form.cleaned_data['precio']
             descripcion = form.cleaned_data['descripcion']
@@ -136,10 +131,9 @@ def crear_producto(request):
                     activo=activo
                 )
                 
-                # Mensaje de éxito.
                 messages.success(request, f'Producto "{nombre}" creado exitosamente!')
                 
-                # Información adicional sobre quién lo creó.
+                # Información sobre quién lo creó.
                 username = request.session.get('username', 'Usuario')
                 messages.info(request, f'Producto registrado por: {username}')
                 
